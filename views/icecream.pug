@@ -1,0 +1,15 @@
+extends layout
+ 
+block content
+  h1= title
+  - let icecreams=[{icecreamname:"cone",flavor:"chocolate",size:"large",price:200},{icecreamname:"bar",flavor:"vanilla",size:"medium",price:300},{icecreamname:"nestle",flavor:"strawberry",size:"medium",price:400}]
+  div(class="container-fluid mt-3")
+  div(class="row")
+    each icecream,index in icecreams
+        div(class="col-sm-4 m-1 p-3" style=("font-weight:bolder") onclick=`buy(${index})`) #{icecream.icecreamname} - #{icecream.flavor} - #{icecream.size} - #{icecream.price}
+  script.
+     
+      function buy(itemNo)
+      {
+        alert(`You purchased Item ${itemNo+1}`)
+      }
