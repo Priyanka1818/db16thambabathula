@@ -15,8 +15,13 @@
     "morgan": "^1.10.0",
     "pug": "^3.0.2"
   },
+  "description": "Pug template Engine",
   "main": "app.js",
-  "author": "",
-  "license": "ISC",
-  "description": ""
+  "keywords": [
+    "Pug",
+    "node",
+    "express"
+  ],
+  "author": "Priyanka Thambabathula",
+  "license": "ISC"
 }

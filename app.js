@@ -14,7 +14,32 @@ var usersRouter = require('./routes/users');
 var icecream = require('./routes/icecream');
 var stars = require('./routes/stars');
 var slot = require('./routes/slot');
-var app = express();
+var resourceRouter = require('./routes/resource');
+
+// We can seed the collection if needed on server start
+async function recreateDB(){
+  // Delete everything
+  await Icecream.deleteMany();
+  let instance1 = new Icecream({icecreamname:"cone",flavor:"chocolate",size:"large",price:200});
+  instance1.save( function(err,doc) {
+  if(err) return console.error(err);
+  console.log("First object saved")
+  });
+  let instance2 = new Icecream({icecreamname:"bar",flavor:"vanilla",size:"medium",price:300});
+  instance2.save( function(err,doc) {
+  if(err) return console.error(err);
+  console.log("second object saved")
+  });
+  let instance3 = new Icecream({icecreamname:"nestle",flavor:"strawberry",size:"medium",price:400});
+  instance3.save( function(err,doc) {
+  if(err) return console.error(err);
+  console.log("third object saved")
+  });
+ }
+
+ let reseed = true;
+ if (reseed) { recreateDB();}
+ var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -31,6 +56,9 @@ app.use('/users', usersRouter);
 app.use('/icecream', icecream);
 app.use('/stars', stars);
 app.use('/slot', slot);
+app.use('/resource', resourceRouter);
+
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
@@ -52,4 +80,7 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connectionerror:'));
 db.once("open", function(){
 console.log("Connection to DB succeeded")});
+var icecream=require('./models/icecream')
+
+ 
 module.exports = app;
