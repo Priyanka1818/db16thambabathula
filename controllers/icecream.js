@@ -11,10 +11,18 @@ exports.icecream_list = async function (req, res) {
     }
     // res.send('NOT IMPLEMENTED: icecream list');
 };
-// for a specific icecream.
-exports.icecream_detail = function (req, res) {
-    res.send('NOT IMPLEMENTED: icecream detail: ' + req.params.id);
+// for a specific Costume.
+exports.icecream_detail = async function(req, res) {
+    console.log("detail"  + req.params.id)
+    try {
+        result = await icecream.findById( req.params.id)
+        res.send(result)
+    } catch (error) {
+        res.status(500)
+        res.send(`{"error": document for id ${req.params.id} not found`);
+    }
 };
+
 // Handle icecream create on POST.
 exports.icecream_create_post = async function (req, res) {
     console.log(req.body)
@@ -24,8 +32,8 @@ exports.icecream_create_post = async function (req, res) {
     // and require that it be a json object
     // {"costumetype":"goat", "cost":12, "size":"large"}
     document.icecreamname = req.body.icecreamname;
-    document.habitat = req.body.habitat;
-    document.classification = req.body.classification;
+    document.flavor = req.body.flavor;
+    document.size = req.body.size;
     document.price = req.body.price;
     try {
         let result = await document.save();
@@ -40,10 +48,25 @@ exports.icecream_create_post = async function (req, res) {
 exports.icecream_delete = function (req, res) {
     res.send('NOT IMPLEMENTED: icecream delete DELETE ' + req.params.id);
 };
-// Handle icecream update form on PUT.
-exports.icecream_update_put = function (req, res) {
-    res.send('NOT IMPLEMENTED: icecream update PUT' + req.params.id);
+// Handle Costume update form on PUT.
+exports.icecream_update_put = async function(req, res) {
+    console.log(`update on id ${req.params.id} with body ${JSON.stringify(req.body)}`)
+    try {
+        let toUpdate = await icecream.findById( req.params.id)
+        // Do updates of properties
+        if(req.body.icecreamname) toUpdate.icecreamname = req.body.icecreamname;
+        if(req.body.flavor) toUpdate.flavor = req.body.flavor;
+        if(req.body.size) toUpdate.size = req.body.size;
+        if(req.body.price) toUpdate.price = req.body.price;
+        let result = await toUpdate.save();
+        console.log("Sucess " + result)
+        res.send(result)
+    } catch (err) {
+        res.status(500)
+        res.send(`{"error": ${err}: Update for id ${req.params.id} failed`);
+    }
 };
+
 
 // VIEWS
 // Handle a show all view
