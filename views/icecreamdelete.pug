@@ -1,0 +1,45 @@
+extends layout
+block content
+  h1= title
+  - let icecreamid = toShow._id
+  - let icecreamname = toShow.icecreamname
+  - let flavor = toShow.flavor
+  - let size = toShow.size
+  - let price = toShow.price
+  - let actionid = "/resource/icecream/" + icecreamid
+  form(id='icecreamForm', action=actionid, method="DELETE")
+ 
+    div
+        div.row
+            div(class='icecreamAttr mr-3') icecream ID is:
+            div #{icecreamid}
+        div.row
+            div(class='icecreamAttr mr-3') icecream name is:
+            div #{icecreamname}
+        div.row
+            div(class='icecreamAttr mr-3') flavor is:
+            div #{flavor}
+        div.row
+            div(class='icecreamAttr mr-3') size is:
+            div #{size}
+        div.row
+            div(class='icecreamAttr mr-3') price is:
+            div #{price}
+        input(type="submit")
+  script.
+    document.forms['icecreamForm'].addEventListener('submit', (event) => {
+      event.preventDefault();
+      // TODO do something here to show user that form is being submitted
+      fetch(event.target.action, {
+          method: 'DELETE',
+          body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+      }).then((resp) => {
+          return resp.json(); // or resp.text() or whatever the server sends
+      }).then((body) => {
+          alert("Deleted successfully")
+          // TODO handle body
+      }).catch((error) => {
+          // TODO handle error
+          alert("Save failed " + error )
+      });    
+    });
