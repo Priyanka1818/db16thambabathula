@@ -82,6 +82,7 @@ exports.icecream_update_put = async function(req, res) {
 exports.icecream_view_all_Page = async function (req, res) {
     try {
         theicecream = await icecream.find();
+        console.log(theicecream);
         res.render('icecream', { title: 'icecream Search Results', results: theicecream });
     }
     catch (err) {
