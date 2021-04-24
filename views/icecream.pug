@@ -1,16 +1,25 @@
 extends layout
- 
+
 block content
   h1= title
-
-  div(class="container-fluid")
-  div(class="row m-1")
-  each i in results
-    - let destination = `dispatch(\"/resource/update/?id=${i._id}\")`
-    div(class="row-sm-2", class="m-1") #{i.icecreamname} - #{i.flavor} - #{i.size} - #{i.price}
+  - let icecreams = results
+  div(class="container-fluid mt-3")
+  div(class="row")
+  each icecream in icecreams
+    - let destination = `dispatch(\"/icecream/update?id=${icecream._id}\")`
+    - let destinationcreate = `dispatchCreate(\"/icecream/create\")`
+    - let destinationdelete = `dispatchDelete(\"/icecream/delete?id=${icecream._id}\")`
+    div(class="col-sm-4 bg-info m-1 p-3") #{icecream.icecreamname} - #{icecream.flavor} - #{icecream.size} - #{icecream.price}
     button.btn( class="btn-primary ml-1", onclick= destination) Update
-
+    button.btn( class="btn-primary " class="m-1" class="btn-toolbar", onclick= destinationcreate) Create
+    button.btn( class="btn-danger" class="m-1" class="btn-toolbar", onclick= destinationdelete) Delete
   script.
-    function dispatch(path){
+     function dispatch(path){
+     window.location.href=path
+     }
+     function dispatchDelete(path){
       window.location.href=path
-    }
+      }    
+      function dispatchCreate(path){
+      window.location.href=path
+      }

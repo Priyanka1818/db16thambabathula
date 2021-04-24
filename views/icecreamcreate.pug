@@ -1,23 +1,23 @@
 extends layout
-
+ 
 block content
   h1= title
-
+ 
   form(id='icecreamForm', action="/resource/icecream", method="POST")
     div.form-group
         label.icecreamAttr(for='icecreamname') icecream name
         input#icecreamname(type='text', name='icecreamname')
     div.form-group
-        label.icecreamAttr(for='flavor') icecream flavor
+        label.icecreamAttr(for='flavor') flavor
         input#flavor(type='text', name='flavor')
     div.form-group
-        label.icecreamAttr(for='size') icecream size
+        label.icecreamAttr(for='size') size
         input#size(type='text', name='size')
     div.form-group
-        label.icecreamAttr(for='price') icecream price
+        label.icecreamAttr(for='price') price
         input#price(type='number', name='price')
     input(type="submit")
-
+ 
   script.
     document.forms['icecreamForm'].addEventListener('submit', (event) => {
       event.preventDefault();
@@ -28,6 +28,7 @@ block content
       }).then((resp) => {
         return resp.json(); // or resp.text() or whatever the server sends
       }).then((body) => {
+        console.log(body)
         alert("Save succeded")
         // TODO handle body
       }).catch((error) => {
@@ -35,3 +36,5 @@ block content
         alert("Save failed " + error )
       });
     });
+
+ 
